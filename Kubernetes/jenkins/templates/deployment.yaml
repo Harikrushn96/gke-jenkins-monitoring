@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jenkins.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "jenkins.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "jenkins.fullname" . }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: jenkins
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: agent
+              containerPort: 50000
+          env:
+            - name: JENKINS_ADMIN_ID
+              value: {{ .Values.jenkins.adminUser | quote }}
+            - name: JENKINS_ADMIN_PASSWORD
+              value: {{ .Values.jenkins.adminPassword | quote }}
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+          resources:
+{{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: jenkins-home
+{{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "jenkins.fullname" . }}-pvc
+{{- else }}
+          emptyDir: {}
+{{- end }}
+      nodeSelector:
+{{- toYaml .Values.nodeSelector | nindent 8 }}
+      tolerations:
+{{- toYaml .Values.tolerations | nindent 8 }}
+      affinity:
+{{- toYaml .Values.affinity | nindent 8 }}

@@ -1,0 +1,32 @@
+image:
+  repository: jenkins/jenkins
+  tag: lts
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 8080
+  agentPort: 50000
+
+resources: {}
+  # limits:
+  #   cpu: "1"
+  #   memory: "2Gi"
+  # requests:
+  #   cpu: "500m"
+  #   memory: "1Gi"
+
+persistence:
+  enabled: true
+  storageClass: standard
+  accessMode: ReadWriteOnce
+  size: 20Gi
+  existingClaim: ""
+
+jenkins:
+  adminUser: admin
+  adminPassword: admin
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: multi-ingress
+description: A shared ingress for multiple services using path-based routing
+type: application
+version: 0.1.0
+appVersion: "1.0"

@@ -1,0 +1,17 @@
+ingressClassName: nginx
+
+annotations:
+  nginx.ingress.kubernetes.io/rewrite-target: /
+
+paths:
+  - path: /hello
+    pathType: Prefix
+    service:
+      name: hello-app
+      port: 80
+
+  - path: /jenkins
+    pathType: Prefix
+    service:
+      name: jenkins
+      port: 8080
