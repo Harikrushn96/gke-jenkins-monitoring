@@ -1,0 +1,10 @@
+image:
+  repository: grafana/grafana
+  tag: 11.0.0
+
+service:
+  type: LoadBalancer
+  port: 3000
+
+adminUser: admin
+adminPassword: admin

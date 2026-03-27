@@ -4,14 +4,20 @@ annotations:
   nginx.ingress.kubernetes.io/rewrite-target: /
 
 paths:
-  - path: /hello
-    pathType: Prefix
-    service:
-      name: hello-app
-      port: 80
-
   - path: /jenkins
     pathType: Prefix
     service:
-      name: jenkins
+      name: jenkins-jenkins
       port: 8080
+
+  - path: /prometheus
+    pathType: Prefix
+    service:
+      name: prometheus
+      port: 9090
+
+  - path: /grafana
+    pathType: Prefix
+    service:
+      name: grafana
+      port: 3000
